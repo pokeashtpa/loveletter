@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💝 A Special Surprise For You 💝</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a0a0a 0%, #2d0a1a 50%, #1a0a0a 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #fff;
+        }
+
+        /* Floating Hearts Background */
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .floating-heart {
+            position: absolute;
+            bottom: -50px;
+            animation: floatUp linear infinite;
+            opacity: 0.6;
+            font-size: 20px;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(1);
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(720deg) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Entrance Screen */
+        .entrance-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a5a, #ff8e8e);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .entrance-screen.hidden {
+            opacity: 0;
+            transform: scale(1.5);
+            pointer-events: none;
+        }
+
+        .entrance-heart {
+            font-size: 100px;
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .entrance-title {
+            font-size: 2.5em;
+            margin: 20px 0;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .entrance-btn {
+            padding: 15px 50px;
+            font-size: 1.3em;
+            background: white;
+            color: #ff6b6b;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .entrance-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 50px 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header h1 {
+            font-size: 3em;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e, #ffb4b4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+        }
+
+        .header .subtitle {
+            font-size: 1.3em;
+            color: #ffb4b4;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        /* Section Styles */
+        .section {
+            background: rgba(255, 107, 107, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            border: 1px solid rgba(255, 107, 107, 0.2);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 1.8em;
+            color: #ff8e8e;
+            margin-bottom: 20px;
+        }
+
+        /* Love Letter */
+        .love-letter {
+            background: linear-gradient(135deg, #fff5f5, #ffe4e4);
+            color: #8b4557;
+            padding: 40px;
+            border-radius: 5px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            position: relative;
+            transform: rotate(-1deg);
+            line-height: 1.8;
+            font-size: 1.1em;
+        }
+
+        .love-letter::before {
+            content: '💌';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 40px;
+        }
+
+        .love-letter .signature {
+            text-align: right;
+            margin-top: 20px;
+            font-style: italic;
+            color: #c44569;
+        }
+
+        /* Reasons Section */
+        .reasons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .reason-card {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            cursor: default;
+        }
+
+        .reason-card:hover {
+            transform: translateY(-10px) rotate(2deg);
+        }
+
+        .reason-card .emoji {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        /* Memory Gallery */
+        .memory-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .memory-item {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #ff8e8e, #ffb4b4);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .memory-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+        }
+
+        .memory-item .memory-emoji {
+            font-size: 30px;
+            margin-bottom: 5px;
+        }
+
+        .memory-item .memory-text {
+            font-size: 0.9em;
+            color: #8b4557;
+        }
+
+        /* Question Section */
+        .question-section {
+            text-align: center;
+        }
+
+        .question-text {
+            font-size: 2em;
+            margin-bottom: 30px;
+            color: #ffb4b4;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .answer-btn {
+            padding: 20px 60px;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .yes-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+        }
+
+        .yes-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4);
+        }
+
+        .no-btn {
+            background: linear-gradient(135deg, #666, #555);
+            color: white;
+            position: relative;
+        }
+
+        /* Celebration */
+        .celebration {
+            display: none;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .celebration.active {
+            display: block;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .celebration-heart {
+            font-size: 150px;
+            animation: pulse 0.5s ease-in-out infinite;
+        }
+
+        .celebration-text {
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e, #ffb4b4, #ff8e8e);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient 3s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            top: -10px;
+            animation: confetti-fall linear forwards;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+            }
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: linear-gradient(to bottom, #ff6b6b, #ff8e8e, #ffb4b4);
+            border-radius: 3px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 20px 0;
+            padding-left: 30px;
+        }
+
+        .timeline-item::before {
+            content: '💕';
+            position: absolute;
+            left: -20px;
+            top: 20px;
+            font-size: 20px;
+        }
+
+        .timeline-date {
+            color: #ff8e8e;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        /* Countdown */
+        .countdown-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            background: rgba(255, 107, 107, 0.3);
+            padding: 20px 30px;
+            border-radius: 15px;
+            min-width: 100px;
+        }
+
+        .countdown-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #ff8e8e;
+        }
+
+        .countdown-label {
+            font-size: 0.9em;
+            color: #ffb4b4;
+        }
+
+        /* Music Button */
+        .music-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
+            border: none;
+            cursor: pointer;
+            font-size: 25px;
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.4);
+            transition: transform 0.3s ease;
+            z-index: 100;
+        }
+
+        .music-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .entrance-title {
+                font-size: 1.8em;
+            }
+
+            .memory-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .question-text {
+                font-size: 1.5em;
+            }
+
+            .answer-btn {
+                padding: 15px 40px;
+                font-size: 1.2em;
+            }
+        }
+
+        /* Sparkle Effect */
+        .sparkle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #fff;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkle 0.5s ease forwards;
+        }
+
+        @keyframes sparkle {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        /* Hidden class */
+        .hidden-section {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Hearts Background -->
+    <div class="hearts-container" id="heartsContainer"></div>
+
+    <!-- Entrance Screen -->
+    <div class="entrance-screen" id="entranceScreen">
+        <div class="entrance-heart">💝</div>
+        <h1 class="entrance-title">I Have Something Special For You...</h1>
+        <button class="entrance-btn" onclick="enterSite()">Open Your Surprise 💌</button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container" id="mainContent" style="display: none;">
+        
+        <!-- Header -->
+        <header class="header">
+            <h1>Happy Valentine's Day, My Love! 💕</h1>
+            <p class="subtitle">A special message from my heart to yours</p>
+        </header>
+
+        <!-- Countdown Section -->
+        <section class="section" id="countdown-section">
+            <h2 class="section-title">💕 Time We've Been Together 💕</h2>
+            <div class="countdown-container">
+                <div class="countdown" id="countdown">
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="days">0</div>
+                        <div class="countdown-label">Days</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="hours">0</div>
+                        <div class="countdown-label">Hours</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="minutes">0</div>
+                        <div class="countdown-label">Minutes</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-number" id="seconds">0</div>
+                        <div class="countdown-label">Seconds</div>
+                    </div>
+                </div>
+                <p style="margin-top: 20px; color: #ffb4b4;">...of pure happiness with you! 💖</p>
+            </div>
+        </section>
+
+        <!-- Love Letter Section -->
+        <section class="section" id="letter-section">
+            <h2 class="section-title">💌 A Letter For You 💌</h2>
+            <div class="love-letter">
+                <p>My Dearest Love,</p>
+                <br>
+                <p>Every moment with you feels like a beautiful dream I never want to wake up from. Your smile lights up my darkest days, and your laughter is the sweetest melody I've ever heard.</p>
+                <br>
+                <p>You are my best friend, my soulmate, and my everything. I fall more in love with you every single day, and I can't imagine my life without you in it.</p>
+                <br>
+                <p>Thank you for being you, for loving me, and for making every day an adventure worth living.</p>
+                <br>
+                <p>I love you more than words could ever express... 💕</p>
+                <div class="signature">
+                    Forever Yours,<br>
+                    💝 Your Valentine 💝
+                </div>
+            </div>
+        </section>
+
+        <!-- Reasons Section -->
+        <section class="section" id="reasons-section">
+            <h2 class="section-title">💖 Reasons Why I Love You 💖</h2>
+            <div class="reasons-grid">
+                <div class="reason-card">
+                    <div class="emoji">😊</div>
+                    <p>Your beautiful smile</p>
+                </div>
+                <div class="reason-card">
+                    <div class="emoji">💪</div>
+                    <p>Your strength & courage</p>
+                </div>
+                <div class="reason-card">
+                    <div class="emoji">🤗</div>
+                    <p>Your warm hugs</p>
+                </div>
+                <div class="reason-card">
+                    <div class="emoji">😂</div>
+                    <p>How you make me laugh</p>
+                </div>
+                <div class="reason-card">
+                    <div class="emoji">💝</div>
+                    <p>Your loving heart</p>
+                </div>
+                <div class="reason-card">
+                    <div class="emoji">✨</div>
+                    <p>Everything about you!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline Section -->
+        <section class="section" id="timeline-section">
+            <h2 class="section-title">💕 Our Journey Together 💕</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">The Day We Met</div>
+                    <p>My life changed forever when I first saw you...</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Our First Date</div>
+                    <p>Butterflies, laughter, and the beginning of something magical...</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">First "I Love You"</div>
+                    <p>Three words that meant everything...</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Today & Forever</div>
+                    <p>Every day with you is a blessing I'm grateful for...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Memory Gallery Section -->
+        <section class="section" id="gallery-section">
+            <h2 class="section-title">💝 Our Favorite Moments 💝</h2>
+            <div class="memory-gallery">
+                <div class="memory-item">
+                    <div class="memory-emoji">🌅</div>
+                    <div class="memory-text">Watching sunsets together</div>
+                </div>
+                <div class="memory-item">
+                    <div class="memory-emoji">🍕</div>
+                    <div class="memory-text">Late night food runs</div>
+                </div>
+                <div class="memory-item">
+                    <div class="memory-emoji">🎬</div>
+                    <div class="memory-text">Movie marathons</div>
+                </div>
+                <div class="memory-item">
+                    <div class="memory-emoji">🚗</div>
+                    <div class="memory-text">Road trips & adventures</div>
+                </div>
+                <div class="memory-item">
+                    <div class="memory-emoji">🎵</div>
+                    <div class="memory-text">Dancing in the kitchen</div>
+                </div>
+                <div class="memory-item">
+                    <div class="memory-emoji">💤</div>
+                    <div class="memory-text">Cozy lazy days</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Question Section -->
+        <section class="section" id="question-section">
+            <div class="question-section">
+                <h2 class="question-text">Will You Be My Valentine? 💕</h2>
+                <div class="buttons-container">
+                    <button class="answer-btn yes-btn" onclick="sayYes()">Yes! 💖</button>
+                    <button class="answer-btn no-btn" id="noBtn" onmouseover="moveButton()" onclick="moveButton()">No</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Celebration Section (Hidden by default) -->
+        <section class="celebration" id="celebration">
+            <div class="celebration-heart">💖</div>
+            <h1 class="celebration-text">Yay! You Made Me The Happiest Person! 🎉</h1>
+            <p style="margin-top: 30px; font-size: 1.3em; color: #ffb4b4;">
+                I love you to the moon and back! 🌙<br>
+                Forever and always, you have my heart! 💕
+            </p>
+        </section>
+
+    </div>
+
+    <!-- Music Button -->
+    <button class="music-btn" id="musicBtn" onclick="toggleMusic()">🎵</button>
+
+    <!-- Background Music (Add your own music file) -->
+    <audio id="bgMusic" loop>
+        <source src="your-romantic-song.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Create floating hearts
+        function createFloatingHearts() {
+            const container = document.getElementById('heartsContainer');
+            const hearts = ['💕', '💖', '💗', '💓', '💝', '❤️', '💘', '💞'];
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                heart.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                container.appendChild(heart);
+
+                setTimeout(() => heart.remove(), 10000);
+            }, 300);
+        }
+
+        // Enter the site
+        function enterSite() {
+            document.getElementById('entranceScreen').classList.add('hidden');
+            document.getElementById('mainContent').style.display = 'block';
+            createFloatingHearts();
+            startCountdown();
+            initScrollAnimations();
+        }
+
+        // Scroll animations
+        function initScrollAnimations() {
+            const sections = document.querySelectorAll('.section');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            sections.forEach(section => observer.observe(section));
+        }
+
+        // Countdown timer (time together)
+        function startCountdown() {
+            // Set your anniversary/start date here
+            const startDate = new Date('2024-02-14'); // Change this to your date
+            
+            function updateCountdown() {
+                const now = new Date();
+                const diff = now - startDate;
+
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                document.getElementById('days').textContent = days;
+                document.getElementById('hours').textContent = hours;
+                document.getElementById('minutes').textContent = minutes;
+                document.getElementById('seconds').textContent = seconds;
+            }
+
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+
+        // Move the "No" button
+        function moveButton() {
+            const btn = document.getElementById('noBtn');
+            const maxX = window.innerWidth - btn.offsetWidth - 50;
+            const maxY = window.innerHeight - btn.offsetHeight - 50;
+            
+            btn.style.position = 'fixed';
+            btn.style.left = Math.random() * maxX + 'px';
+            btn.style.top = Math.random() * maxY + 'px';
+            btn.style.zIndex = '1000';
+        }
+
+        // Say Yes celebration
+        function sayYes() {
+            document.getElementById('question-section').style.display = 'none';
+            document.getElementById('celebration').classList.add('active');
+            createConfetti();
+            createMassiveHearts();
+        }
+
+        // Create confetti
+        function createConfetti() {
+            const colors = ['#ff6b6b', '#ff8e8e', '#ffb4b4', '#ff4757', '#ff6b81', '#ffa502', '#ff7f50'];
+            
+            for (let i = 0; i < 150; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    confetti.style.width = (Math.random() * 10 + 5) + 'px';
+                    confetti.style.height = (Math.random() * 10 + 5) + 'px';
+                    document.body.appendChild(confetti);
+
+                    setTimeout(() => confetti.remove(), 5000);
+                }, i * 30);
+            }
+        }
+
+        // Create massive hearts burst
+        function createMassiveHearts() {
+            const container = document.getElementById('heartsContainer');
+            const hearts = ['💕', '💖', '💗', '💓', '💝', '❤️', '💘', '💞'];
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'floating-heart';
+                    heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.fontSize = (Math.random() * 30 + 20) + 'px';
+                    heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                    container.appendChild(heart);
+
+                    setTimeout(() => heart.remove(), 6000);
+                }, i * 100);
+            }
+        }
+
+        // Toggle background music
+        let musicPlaying = false;
+        function toggleMusic() {
+            const music = document.getElementById('bgMusic');
+            const btn = document.getElementById('musicBtn');
+            
+            if (musicPlaying) {
+                music.pause();
+                btn.textContent = '🎵';
+            } else {
+                music.play();
+                btn.textContent = '🔊';
+            }
+            musicPlaying = !musicPlaying;
+        }
+
+        // Sparkle effect on click
+        document.addEventListener('click', function(e) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = e.clientX + 'px';
+            sparkle.style.top = e.clientY + 'px';
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => sparkle.remove(), 500);
+        });
+
+        // Create hearts on mouse move (optional - for extra romance!)
+        let lastHeartTime = 0;
+        document.addEventListener('mousemove', function(e) {
+            const now = Date.now();
+            if (now - lastHeartTime > 100) {
+                const heart = document.createElement('div');
+                heart.textContent = '💕';
+                heart.style.position = 'fixed';
+                heart.style.left = e.clientX + 'px';
+                heart.style.top = e.clientY + 'px';
+                heart.style.pointerEvents = 'none';
+                heart.style.fontSize = '15px';
+                heart.style.opacity = '0.7';
+                heart.style.transition = 'all 1s ease';
+                heart.style.zIndex = '9999';
+                document.body.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.style.transform = 'translateY(-50px) scale(0)';
+                    heart.style.opacity = '0';
+                }, 10);
+
+                setTimeout(() => heart.remove(), 1000);
+                lastHeartTime = now;
+            }
+        });
+    </script>
+</body>
+</html>
